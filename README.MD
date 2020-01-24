@@ -1,5 +1,5 @@
-#Scanner for CVE-2020-0609 & CVE-2020-0610
-A proof-of-concept scanner to check an RDG Gateway Server for vulnerabilities CVE-2020-0609 & CVE-2020-0610.
+# Scanner for CVE-2020-0609 & CVE-2020-0610
+A proof-of-concept scanner to check an RDP Gateway Server for vulnerabilities CVE-2020-0609 & CVE-2020-0610.
 
 Tested on Windows Server 2019 x64 (with all updated prior to KB4534273).
 
