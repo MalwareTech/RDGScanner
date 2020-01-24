@@ -13,6 +13,9 @@ proof-of-concept and not designed for real world use.
 ``python3 RDGScanner.py <ip> <port>``
 
 ## How it works
+To understand the vulnerabilities, you can read my writeup here:
+https://www.kryptoslogic.com/blog/2020/01/rdp-to-rce-when-fragmentation-goes-wrong/
+
 The CONNECT_PKT_FRAGMENT message allows a connect message to be fragmented across multiple packets. Each packet has a 
 field specifying the position of the packet in the sequence (`fragment_id`) and the total number of packets in the 
 sequence (`num_fragments`).
