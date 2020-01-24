@@ -10,7 +10,7 @@ import time
 DTLSv1_METHOD = 7
 SSL.Context._methods[DTLSv1_METHOD] = getattr(_lib, "DTLSv1_client_method")
 
-vulnerable = False
+vulnerable = True
 connected = False
 
 
@@ -56,7 +56,7 @@ def scan_server(ip, port):
     if len(data) == 16:
         error_code = struct.unpack('<L', data[12:])[0]
         if error_code == 0x8000ffff:
-            vulnerable = True
+            vulnerable = False
 
 
 if __name__ == '__main__':
