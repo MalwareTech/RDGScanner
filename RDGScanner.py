@@ -4,7 +4,6 @@ import sys
 import socket
 import struct
 import threading
-import time
 
 # PyOpenSSL doesn't expose the DTLS method to python, so we have to patch it
 DTLSv1_METHOD = 7
