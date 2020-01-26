@@ -3,8 +3,7 @@ from OpenSSL._util import (lib as _lib)
 import sys
 import socket
 import struct
-import threading
-import time
+import select
 
 # PyOpenSSL doesn't expose the DTLS method to python, so we have to patch it
 DTLSv1_METHOD = 7
@@ -38,10 +37,10 @@ def certificate_callback(sock, cert, err_num, depth, ok):
     return True
 
 
-def scan_server(ip, port):
+def scan_server(ip, port, timeout):
     global vulnerable
 
-    print('Checking to {}:{}'.format(ip, port))
+    print('Checking {}:{}'.format(ip, port))
 
     ctx = SSL.Context(DTLSv1_METHOD)
     ctx.set_verify_depth(2)
@@ -52,11 +51,13 @@ def scan_server(ip, port):
     sock.connect((ip, int(port)))
     sock.send(build_connect_packet(0, 65, b"A"))
 
-    data = sock.recv(1024)
-    if len(data) == 16:
-        error_code = struct.unpack('<L', data[12:])[0]
-        if error_code == 0x8000ffff:
-            vulnerable = False
+    read_fds, _, _ = select.select([sock], [], [], timeout)
+    if read_fds:
+        data = sock.recv(1024)
+        if len(data) == 16:
+            error_code = struct.unpack('<L', data[12:])[0]
+            if error_code == 0x8000ffff:
+                vulnerable = False
 
 
 if __name__ == '__main__':
@@ -64,10 +65,7 @@ if __name__ == '__main__':
     # setting the timeout too low can result in false
     timeout_secs = 3
 
-    # PyOpenSSL doesn't support settimeout(), so we have to implement our own pseudo-timeout
-    thread = threading.Thread(target=scan_server, args=(sys.argv[1], sys.argv[2]))
-    thread.start()
-    thread.join(timeout_secs)
+    scan_server(sys.argv[1], sys.argv[2], timeout_secs)
 
     if connected:
         if vulnerable:
