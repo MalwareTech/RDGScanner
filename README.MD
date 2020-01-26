@@ -1,12 +1,14 @@
 # Scanner for CVE-2020-0609 & CVE-2020-0610
 A proof-of-concept scanner to check an RDP Gateway Server for vulnerabilities CVE-2020-0609 & CVE-2020-0610.
 
-Tested on Windows Server 2019 x64 (with all updated prior to KB4534273).
+#### Tested on:
+- Windows Server 2012 x64
+- Windows Server 2016 x64
+- Windows Server 2019 x64
 
 ## Disclaimer
 Scanning for memory corruption vulnerabilities is dangerous and can potentially crash systems. 
-Whilst this tool has been designed to avoid causing a crash, stability can't be 100% guaranteed. This is only a 
-proof-of-concept and not designed for real world use.
+Whilst this tool has been designed to avoid causing a crash, stability can't be 100% guaranteed.
 **Use at your own risk and only scan systems you have permission to test.**
 
 ## Usage
